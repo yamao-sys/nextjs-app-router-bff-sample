@@ -8,7 +8,7 @@ on:
 jobs:
   Lint:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: "1.23"
+          go-version: '1.23'
 
       - name: Install dependencies
         working-directory: ./api_server
@@ -25,7 +25,7 @@ jobs:
       - name: Generate reviewdog api token
         id: generate_token
         uses: tibdex/github-app-token@v1
-        with: 
+        with:
           app_id: ${{ secrets.REVIEDOG_APP_ID }}
           private_key: ${{ secrets.REVIEDOG_PRIVATE_KEY }}
 
@@ -37,7 +37,7 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ steps.generate_token.outputs.token }}
         working-directory: ./api_server
         run: go install honnef.co/go/tools/cmd/staticcheck@latest && staticcheck ./... | reviewdog -reporter=github-pr-review -f=staticcheck -level=warn -filter-mode=nofilter -fail-level=any
-  
+
   Test:
     runs-on: ubuntu-latest
 
@@ -49,7 +49,7 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: go_nextjs_graphql_practice_test
+          MYSQL_DATABASE: nextjs_app_router_bff_sample_test
           TZ: 'Asia/Tokyo'
 
     steps:
@@ -59,7 +59,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: "1.23"
+          go-version: '1.23'
 
       - name: Install dependencies
         working-directory: ./api_server
